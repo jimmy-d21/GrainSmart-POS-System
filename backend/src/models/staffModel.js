@@ -64,6 +64,7 @@ class StaffModel {
   static async updateStaffStatus(staffId, status) {
     const { rows } = await db.query(
       "UPDATE staff SET status = $1 WHERE staff_id = $2",
+      [status, staffId],
     );
     return rows[0];
   }
