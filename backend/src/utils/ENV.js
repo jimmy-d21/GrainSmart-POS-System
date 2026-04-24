@@ -12,6 +12,11 @@ const ENV = {
     password: process.env.DB_PASSWORD,
     database_name: process.env.DB_NAME,
   },
+  cloudinary: {
+    name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    secret_key: process.env.CLOUDINARY_SECRET_KEY,
+  },
 };
 
 export default ENV;

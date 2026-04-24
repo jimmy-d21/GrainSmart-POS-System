@@ -16,8 +16,13 @@ const checkConnect = async () => {
   try {
     const client = await db.connect();
     console.log(`Database Connected successfully`);
+    client.release();
   } catch (error) {
     console.error(`Error Connecting to database: ${error.message}`);
+    process.exit(1);
   }
 };
+
+checkConnect();
+
 export default db;
