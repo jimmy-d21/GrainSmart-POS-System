@@ -30,3 +30,7 @@ export const findStaffById = async (staffId) => {
 
   return staff;
 };
+
+export const logout = async (staffId) => {
+  await StaffModel.updateStaffStatus(staffId);
+};

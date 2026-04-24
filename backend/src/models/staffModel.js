@@ -2,10 +2,9 @@ import db from "../config/db.js";
 
 class StaffModel {
   // Get all staff member
-  static async getAllStaffMembers() {
-    const { rows } = await db.query(
-      "SELECT * FROM staff ORDER BY created_at DESC",
-    );
+  static async getAllStaffMembers(staffId) {
+    const sql = `SELECT * FROM staff WHERE staff_id != $1 ORDER BY created_at DESC`;
+    const { rows } = await db.query(sql, [staffId]);
     return rows;
   }
 
@@ -40,6 +39,32 @@ class StaffModel {
   // Delete staff by id
   static async deleteStaff(staffId) {
     await db.query("DELETE FROM staff WHERE id = $1", [staffId]);
+  }
+
+  // Update staff info by id
+  static async updateStaffProfile(staffId, staffData) {
+    const { image, name, email, role, status } = staffData;
+    const sql = `UPDATE staff
+                 SET image = $1, name = $2, email = $3, role = $4, status = $5
+                 WHERE staff_id = $6`;
+    const { rows } = await db.query(sql, [
+      image,
+      name,
+      email,
+      role,
+      status,
+      staffId,
+    ]);
+
+    return rows[0];
+  }
+
+  // Update staff status
+  static async updateStaffStatus(staffId, status) {
+    const { rows } = await db.query(
+      "UPDATE staff SET status = $1 WHERE staff_id = $2",
+    );
+    return rows[0];
   }
 }
 

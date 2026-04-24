@@ -48,12 +48,37 @@ export const deleteStaff = async (staffId) => {
   await StaffModel.deleteStaff(staff.id);
 };
 
-export const getAllStaffs = async () => {
-  const staffLists = await StaffModel.getAllStaffMembers();
+export const getAllStaffs = async (staffId) => {
+  const staffLists = await StaffModel.getAllStaffMembers(staffId);
 
   staffLists.map((staff) => {
     delete staff.password;
   });
 
   return staffLists;
+};
+
+export const updateStaffProfile = async (staffId, staffData) => {
+  const staff = await StaffModel.findByStaffId(staffId);
+  if (!staff) throw new Error("Staff not found");
+
+  if (staffData.email && staff.email !== staffData.email) {
+    const existEmail = await StaffModel.findByEmail(staffData.email);
+    if (existEmail) {
+      throw new Error("A staff member with this email already exists");
+    }
+  }
+
+  // Image Update Logic
+  if (staffData.image && staffData.image.startsWith("data:image")) {
+    if (staff.image && staff.image.includes("cloudinary")) {
+      const imageId = staff.image.split("/").pop().split(".")[0];
+      await cloudinary.uploader.destroy(imageId);
+    }
+
+    const uploadRes = await cloudinary.uploader.upload(staffData.image);
+    staffData.image = uploadRes.secure_url;
+  }
+
+  return StaffModel.updateStaffProfile(staffId, staffData);
 };

@@ -66,11 +66,43 @@ export const getStaffInfo = async (req, res) => {
 
 export const getAllStaffs = async (req, res) => {
   try {
-    const staffs = await staffServices.getAllStaffs();
+    const staff = req.staff;
+    const staffs = await staffServices.getAllStaffs(staff.staff_id);
 
     res.status(200).json(staffs);
   } catch (error) {
     console.log(`Error in getAllStaff controller: ${error.message}`);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateStaffProfile = async (req, res) => {
+  try {
+    const { id: staffId } = req.params;
+    const { name, image, email, role, status } = req.body;
+    const staff = req.staff;
+
+    if (staff.role !== "Manager") {
+      throw new Error("You're not authorize to update the staff status");
+    }
+
+    if (staff.staff_id === staffId) {
+      throw new Error("You can't update your status");
+    }
+
+    const updatedStaff = await staffServices.updateStaffProfile(staffId, {
+      image,
+      name,
+      email,
+      role,
+      status,
+    });
+
+    res
+      .status(200)
+      .json({ message: "Staff updated successfully", data: updatedStaff });
+  } catch (error) {
+    console.log(`Error in updateStaffStatus in controller: ${error.message}`);
     return res.status(500).json({ message: error.message });
   }
 };

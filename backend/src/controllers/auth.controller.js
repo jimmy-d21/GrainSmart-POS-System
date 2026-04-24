@@ -25,6 +25,9 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
+    const staff = req.staffId;
+    await authServices.logout(staff.staff_id, "Inactive");
+
     res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "Logout successffully" });
   } catch (error) {
