@@ -21,3 +21,12 @@ export const login = async (staffData) => {
 
   return staff;
 };
+
+export const findStaffById = async (staffId) => {
+  const staff = await StaffModel.findByStaffId(staffId);
+  if (!staff) {
+    throw new Error("Staff not found");
+  }
+
+  return staff;
+};
