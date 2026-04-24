@@ -5,14 +5,15 @@ import {
   addStaff,
   deleteStaff,
   getAllStaffs,
-  getStaffInfo,
+  getStaffProfile,
   updateStaffProfile,
 } from "../controllers/staff.controller.js";
 
 const router = express.Router();
 
-router.get("/", protect, getStaffInfo);
 router.get("/all", protect, getAllStaffs);
+router.get("/:id", protect, getStaffProfile);
+
 router.post("/", protect, addStaff);
 router.delete("/:id", protect, deleteStaff);
 router.put("/:id", protect, updateStaffProfile);

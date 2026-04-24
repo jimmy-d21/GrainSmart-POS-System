@@ -82,3 +82,9 @@ export const updateStaffProfile = async (staffId, staffData) => {
 
   return StaffModel.updateStaffProfile(staffId, staffData);
 };
+
+export const getStaffProfile = async (staffId) => {
+  const staff = await StaffModel.findByStaffId(staffId);
+  if (!staff) throw new Error("Staff not found");
+  return staff;
+};

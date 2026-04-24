@@ -46,7 +46,8 @@ class StaffModel {
     const { image, name, email, role, status } = staffData;
     const sql = `UPDATE staff
                  SET image = $1, name = $2, email = $3, role = $4, status = $5
-                 WHERE staff_id = $6`;
+                 WHERE staff_id = $6 
+                 RETURNING *`;
     const { rows } = await db.query(sql, [
       image,
       name,

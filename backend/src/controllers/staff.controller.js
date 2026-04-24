@@ -52,7 +52,7 @@ export const deleteStaff = async (req, res) => {
   }
 };
 
-export const getStaffInfo = async (req, res) => {
+export const getMe = async (req, res) => {
   try {
     const staff = req.staff;
     delete staff.password; // remove password
@@ -97,12 +97,27 @@ export const updateStaffProfile = async (req, res) => {
       role,
       status,
     });
+    delete updatedStaff.password;
 
     res
       .status(200)
       .json({ message: "Staff updated successfully", data: updatedStaff });
   } catch (error) {
     console.log(`Error in updateStaffStatus in controller: ${error.message}`);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getStaffProfile = async (req, res) => {
+  try {
+    const { id: staffId } = req.params;
+
+    const staff = await staffServices.getStaffProfile(staffId);
+    delete staff.password;
+
+    res.status(200).json(staff);
+  } catch (error) {
+    console.log(`Error in getStaffProfile controller: ${error.message}`);
     return res.status(500).json({ message: error.message });
   }
 };
