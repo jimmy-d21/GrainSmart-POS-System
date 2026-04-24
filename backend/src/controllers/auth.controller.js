@@ -1,4 +1,5 @@
 import * as authServices from "../services/auth.service.js";
+import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
 
 export const login = async (req, res) => {
   try {
@@ -10,6 +11,8 @@ export const login = async (req, res) => {
     }
 
     const staff = await authServices.login({ email, password });
+
+    generateTokenAndSetCookie(res, staff.staff_id);
 
     res.status(200).json({ message: "Login successfully", staff });
   } catch (error) {

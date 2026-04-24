@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import ENV from "./utils/ENV.js";
 import authRoutes from "./routes/auth.route.js";
@@ -10,6 +11,7 @@ const app = express();
 
 // Middleware
 app.use(express.json({ limit: "5mb" }));
+app.use(cookieParser());
 app.use(cors());
 
 // Routes

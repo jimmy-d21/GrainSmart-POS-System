@@ -4,6 +4,7 @@ dotenv.config();
 const ENV = {
   server: {
     port: process.env.PORT,
+    node_env: process.env.NODE_ENV,
   },
   database: {
     host: process.env.DB_HOST,
@@ -17,6 +18,7 @@ const ENV = {
     api_key: process.env.CLOUDINARY_API_KEY,
     secret_key: process.env.CLOUDINARY_SECRET_KEY,
   },
+  jwt: process.env.JWT_SECRET,
 };
 
 export default ENV;
