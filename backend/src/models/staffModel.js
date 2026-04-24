@@ -1,6 +1,14 @@
 import db from "../config/db.js";
 
 class StaffModel {
+  // Get all staff member
+  static async getAllStaffMembers() {
+    const { rows } = await db.query(
+      "SELECT * FROM staff ORDER BY created_at DESC",
+    );
+    return rows;
+  }
+
   // Find staff by email
   static async findByEmail(email) {
     const { rows } = await db.query("SELECT * FROM staff WHERE email = $1", [

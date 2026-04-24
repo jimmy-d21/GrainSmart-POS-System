@@ -63,3 +63,14 @@ export const getStaffInfo = async (req, res) => {
     return res.status(400).json({ message: error.message });
   }
 };
+
+export const getAllStaffs = async (req, res) => {
+  try {
+    const staffs = await staffServices.getAllStaffs();
+
+    res.status(200).json(staffs);
+  } catch (error) {
+    console.log(`Error in getAllStaff controller: ${error.message}`);
+    return res.status(500).json({ message: error.message });
+  }
+};

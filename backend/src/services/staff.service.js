@@ -47,3 +47,13 @@ export const deleteStaff = async (staffId) => {
   // Delete staff
   await StaffModel.deleteStaff(staff.id);
 };
+
+export const getAllStaffs = async () => {
+  const staffLists = await StaffModel.getAllStaffMembers();
+
+  staffLists.map((staff) => {
+    delete staff.password;
+  });
+
+  return staffLists;
+};
