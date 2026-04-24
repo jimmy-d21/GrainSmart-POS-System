@@ -28,6 +28,11 @@ class StaffModel {
     );
     return rows[0];
   }
+
+  // Delete staff by id
+  static async deleteStaff(staffId) {
+    await db.query("DELETE FROM staff WHERE id = $1", [staffId]);
+  }
 }
 
 export default StaffModel;

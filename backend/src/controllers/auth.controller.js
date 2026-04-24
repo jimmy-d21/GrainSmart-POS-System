@@ -23,14 +23,12 @@ export const login = async (req, res) => {
   }
 };
 
-export const getStaffInfo = async (req, res) => {
+export const logout = async (req, res) => {
   try {
-    const staff = req.staff;
-    delete staff.password; // remove password
-
-    return res.status(200).json({ staff });
+    res.cookie("jwt", "", { maxAge: 0 });
+    res.status(200).json({ message: "Logout successffully" });
   } catch (error) {
-    console.log(`Error in getStaffInfo controller: ${error.message}`);
-    return res.status(400).json({ message: error.message });
+    console.log(`Error in logout controller: ${error.message}`);
+    return res.status(500).json({ message: error.message });
   }
 };

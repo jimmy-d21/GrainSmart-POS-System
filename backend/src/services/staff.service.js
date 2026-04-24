@@ -36,3 +36,14 @@ export const addStaff = async (staffData) => {
 
   return newStaff;
 };
+
+export const deleteStaff = async (staffId) => {
+  const staff = await StaffModel.findByStaffId(staffId);
+
+  if (!staff) {
+    throw new Error("Staff not found");
+  }
+
+  // Delete staff
+  await StaffModel.deleteStaff(staff.id);
+};
