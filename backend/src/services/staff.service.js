@@ -88,3 +88,7 @@ export const getStaffProfile = async (staffId) => {
   if (!staff) throw new Error("Staff not found");
   return staff;
 };
+
+export const getStaffAnalytics = async (staffId) => {
+  return await StaffModel.getStaffAnalytics(staffId);
+};

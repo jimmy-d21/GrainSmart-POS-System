@@ -68,6 +68,38 @@ class StaffModel {
     );
     return rows[0];
   }
+
+  // Get staff analytics
+  static async getStaffAnalytics(staffId) {
+    const sql = `SELECT json_build_object(
+                    'summary', (
+                        SELECT json_build_object(
+                            'total_staff', COUNT(*)::INT,
+                            'total_active', COUNT(*) FILTER(WHERE status = 'Active')::INT,
+                            'total_manager', COUNT(*) FILTER(WHERE role = 'Manager')::INT,
+                            'total_cashier', COUNT(*) FILTER(WHERE role = 'Cashier')::INT
+                        ) FROM staff
+                      ),
+                    'staff_members', (
+                        SELECT json_agg(staff_members)
+                        FROM (
+                            SELECT
+                              id,
+                              staff_id,
+                              image,
+                              name,
+                              email,
+                              role,
+                              status
+                            FROM staff
+                            WHERE staff_id != $1
+                            ORDER BY created_at DESC
+                        ) AS staff_members
+                    )
+                 ) AS analytics`;
+    const { rows } = await db.query(sql, [staffId]);
+    return rows;
+  }
 }
 
 export default StaffModel;

@@ -121,3 +121,18 @@ export const getStaffProfile = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const getStaffAnalytics = async (req, res) => {
+  try {
+    const staff = req.staff;
+
+    const staffAnaylytics = await staffServices.getStaffAnalytics(
+      staff.staff_id,
+    );
+
+    res.status(200).json({ analytics: staffAnaylytics });
+  } catch (error) {
+    console.log(`Error in getStaffAnalytics in cotroller: ${error.message}`);
+    return res.status(500).json({ message: error.message });
+  }
+};

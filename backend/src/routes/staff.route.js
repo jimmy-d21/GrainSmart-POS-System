@@ -5,6 +5,7 @@ import {
   addStaff,
   deleteStaff,
   getAllStaffs,
+  getStaffAnalytics,
   getStaffProfile,
   updateStaffProfile,
 } from "../controllers/staff.controller.js";
@@ -12,6 +13,7 @@ import {
 const router = express.Router();
 
 router.get("/all", protect, getAllStaffs);
+router.get("/analytics", protect, getStaffAnalytics);
 router.get("/:id", protect, getStaffProfile);
 
 router.post("/", protect, addStaff);
