@@ -110,3 +110,7 @@ export const updateMenuItem = async (menuId, menuData, staff) => {
 export const getMenuAnalytics = async () => {
   return await MenuModel.menuAnalytics();
 };
+
+export const getAllMenuItems = async () => {
+  return await MenuModel.allMenuItems();
+};

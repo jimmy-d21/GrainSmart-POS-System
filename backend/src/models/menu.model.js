@@ -84,6 +84,30 @@ class MenuModel {
     const { rows } = await db.query(sql);
     return rows[0];
   }
+
+  static async allMenuItems() {
+    const sql = `SELECT
+                      m.id AS item_id,
+                      m.name,
+                      m.image,
+                      m.category,
+                      m.temperature,
+                      (
+                        SELECT JSON_AGG(
+                            JSON_BUILD_OBJECT(
+                                'id', s.size,
+                                'size', s.size,
+                                'price', s.price
+                            )
+                        )
+                        FROM sizeOnz AS s
+                        WHERE s.menu_id = m.id
+                      ) AS sizes
+                  FROM menuItems AS m
+                  ORDER BY m.created_at DESC`;
+    const { rows } = await db.query(sql);
+    return rows;
+  }
 }
 
 export default MenuModel;

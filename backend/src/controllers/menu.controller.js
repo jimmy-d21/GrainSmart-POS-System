@@ -56,3 +56,14 @@ export const getMenuAnalytics = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const getAllMenuItems = async (req, res) => {
+  try {
+    const menuItems = await menuServices.getAllMenuItems();
+
+    res.status(200).json(menuItems);
+  } catch (error) {
+    console.log(`Error in getAllMenuItems: ${error.message}`);
+    return res.status(500).json({ message: error.message });
+  }
+};
