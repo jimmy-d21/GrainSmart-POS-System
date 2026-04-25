@@ -70,3 +70,8 @@ export const restockInventoryItem = async (itemId, staff, restock_amount) => {
 
   return updatedItem;
 };
+
+export const inventoryAnalytics = async () => {
+  const analytics = await InventoryModel.inventoryAnalytics();
+  return analytics;
+};

@@ -40,3 +40,13 @@ export const restockInventoryItem = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const inventoryAnalytics = async (req, res) => {
+  try {
+    const analytics = await inventoryService.inventoryAnalytics();
+    res.status(200).json({ data: analytics });
+  } catch (error) {
+    console.log(`Error in inventoryAnalytics controller: ${error.message}`);
+    return res.status(500).json({ message: error.message });
+  }
+};
