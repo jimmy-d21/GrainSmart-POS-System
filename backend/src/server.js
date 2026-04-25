@@ -3,9 +3,10 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import ENV from "./utils/ENV.js";
+
 import authRoutes from "./routes/auth.route.js";
-import StaffModel from "./models/staffModel.js";
 import staffRoutes from "./routes/staff.route.js";
+import inventoryRoutes from "./routes/inventory.route.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.get("/", async (req, res) => {
 // Auth routes
 app.use("/api/auth", authRoutes);
 app.use("/api/staff", staffRoutes);
+app.use("/api/inventory", inventoryRoutes);
 
 // Handle unknown routes
 app.use((req, res) => {
