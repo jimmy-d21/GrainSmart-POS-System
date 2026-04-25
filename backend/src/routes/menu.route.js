@@ -3,11 +3,13 @@ import protect from "../middlewares/protect.js";
 import {
   addMenuItem,
   deleteMenuItem,
+  getMenuAnalytics,
   updateMenuItem,
 } from "../controllers/menu.controller.js";
 
 const router = express.Router();
 
+router.get("/analytics", protect, getMenuAnalytics);
 router.post("/", protect, addMenuItem);
 router.put("/:id", protect, updateMenuItem);
 router.delete("/:id", protect, deleteMenuItem);

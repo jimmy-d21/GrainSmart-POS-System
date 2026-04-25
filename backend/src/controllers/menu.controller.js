@@ -45,3 +45,14 @@ export const updateMenuItem = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const getMenuAnalytics = async (req, res) => {
+  try {
+    const menuAnalytics = await menuServices.getMenuAnalytics();
+
+    res.status(200).json({ analytics: menuAnalytics });
+  } catch (error) {
+    console.log(`Error in getAnalytics controller: ${error.message}`);
+    return res.status(500).json({ message: error.message });
+  }
+};

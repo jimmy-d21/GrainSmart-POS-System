@@ -106,3 +106,7 @@ export const updateMenuItem = async (menuId, menuData, staff) => {
 
   return { ...updatedMenu, sizes: newSizes };
 };
+
+export const getMenuAnalytics = async () => {
+  return await MenuModel.menuAnalytics();
+};

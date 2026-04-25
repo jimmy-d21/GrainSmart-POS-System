@@ -53,6 +53,37 @@ class MenuModel {
     const { rows } = await db.query(sql, values);
     return rows[0];
   }
+
+  static async menuAnalytics() {
+    const sql = `SELECT JSON_BUILD_OBJECT(
+                      'summary', (
+                          SELECT JSON_BUILD_OBJECT(
+                              'total_items', COUNT(*)::INT,
+                              'reg_drinks', COUNT(*) FILTER(WHERE category = 'Regular Drinks')::INT,
+                              'frappe', COUNT(*) FILTER(WHERE category = 'Frappe')::INT,
+                              'shim_juices', COUNT(*) FILTER(WHERE category = 'Shimmer Juices')::INT,
+                              'premium_drinks', COUNT(*) FILTER(WHERE category = 'Premium Drinks')::INT,
+                              'rice_coffee', COUNT(*) FILTER(WHERE category = 'Rice Coffee Series')::INT
+                          )
+                          FROM menuItems
+                      ),
+                      'menuItems', (
+                          SELECT JSON_AGG(items)
+                          FROM (
+                              SELECT
+                                  id,
+                                  name,
+                                  image,
+                                  category,
+                                  temperature
+                              FROM menuItems
+                              ORDER BY name ASC
+                          ) AS items
+                      )
+                  )`;
+    const { rows } = await db.query(sql);
+    return rows[0];
+  }
 }
 
 export default MenuModel;
