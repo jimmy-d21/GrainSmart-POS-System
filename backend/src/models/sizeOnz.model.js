@@ -10,6 +10,11 @@ class SizeOnz {
     const { rows } = await db.query(sql, values);
     return rows[0];
   }
+
+  static async deleteAllSizesByMenuId(menuId) {
+    const sql = `DELETE FROM sizeOnz WHERE menu_id = $1`;
+    await db.query(sql, [menuId]);
+  }
 }
 
 export default SizeOnz;

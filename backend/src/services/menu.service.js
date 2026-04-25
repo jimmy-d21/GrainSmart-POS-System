@@ -60,3 +60,49 @@ export const deleteMenuItem = async (menuId) => {
   }
   await MenuModel.deleteMenuItem(menuId);
 };
+
+export const updateMenuItem = async (menuId, menuData, staff) => {
+  let { name, image, category, temperature, sizesOnz } = menuData;
+
+  if (staff.role !== "Manager") {
+    throw new Error("You're not authorized to update the menu item");
+  }
+
+  const existingItem = await MenuModel.findMenuItemById(menuId);
+  if (!existingItem) throw new Error("Menu item not found");
+
+  let finalImageUrl = existingItem.image;
+
+  if (image && image.startsWith("data:image")) {
+    if (existingItem.image) {
+      try {
+        const publicId = existingItem.image.split("/").pop().split(".")[0];
+        await cloudinary.uploader.destroy(publicId);
+      } catch (err) {
+        console.error("Cloudinary Delete Error:", err);
+      }
+    }
+
+    const uploadResponse = await cloudinary.uploader.upload(image);
+    finalImageUrl = uploadResponse.secure_url;
+  }
+
+  const updatedMenu = await MenuModel.updateMenuItem(menuId, {
+    name: name || existingItem.name,
+    image: finalImageUrl,
+    category: category || existingItem.category,
+    temperature: temperature || existingItem.temperature,
+  });
+
+  const newSizes = [];
+  if (sizesOnz && Array.isArray(sizesOnz)) {
+    await SizeOnz.deleteAllSizesByMenuId(menuId);
+
+    for (const s of sizesOnz) {
+      const savedSize = await SizeOnz.createSizeOnz(menuId, s.size, s.price);
+      newSizes.push(savedSize);
+    }
+  }
+
+  return { ...updatedMenu, sizes: newSizes };
+};
