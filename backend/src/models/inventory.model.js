@@ -11,6 +11,29 @@ class InventoryModel {
 
     return rows;
   }
+
+  static async findItemById(itemId) {
+    const sql = `SELECT
+                    id,
+                    name,
+                    category,
+                    current_stock,
+                    unit,
+                    reorder_level
+                FROM inventory
+                WHERE id = $1`;
+    const { rows } = await db.query(sql, [itemId]);
+    return rows[0];
+  }
+
+  static async restockInventoryItem(itemId, restock_amount) {
+    const sql = `UPDATE inventory
+                 SET current_stock = $1
+                 WHERE id = $2
+                 RETURNING *`;
+    const { rows } = await db.query(sql, [restock_amount, itemId]);
+    return rows[0];
+  }
 }
 
 export default InventoryModel;

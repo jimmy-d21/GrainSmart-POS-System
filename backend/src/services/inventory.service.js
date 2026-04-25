@@ -48,3 +48,25 @@ export const createInventoryItem = async (itemData, staffRole) => {
   const newItem = await InventoryModel.createInventoryItem(itemData);
   return newItem;
 };
+
+export const restockInventoryItem = async (itemId, staff, restock_amount) => {
+  if (staff.role !== "Manager") {
+    throw new Error("You're not authorize to restock");
+  }
+
+  const item = await InventoryModel.findItemById(itemId);
+  if (!item) {
+    throw new Error("Item not found");
+  }
+
+  if (restock_amount <= item.current_stock) {
+    throw new Error("Please make sure to check the restock amount");
+  }
+
+  const updatedItem = await InventoryModel.restockInventoryItem(
+    itemId,
+    restock_amount,
+  );
+
+  return updatedItem;
+};
