@@ -7,6 +7,7 @@ import ENV from "./utils/ENV.js";
 import authRoutes from "./routes/auth.route.js";
 import staffRoutes from "./routes/staff.route.js";
 import inventoryRoutes from "./routes/inventory.route.js";
+import menuRoutes from "./routes/menu.route.js";
 
 const app = express();
 
@@ -26,8 +27,9 @@ app.get("/", async (req, res) => {
 
 // Auth routes
 app.use("/api/auth", authRoutes);
-app.use("/api/staff", staffRoutes);
-app.use("/api/inventory", inventoryRoutes);
+app.use("/api/staffs", staffRoutes);
+app.use("/api/inventorys", inventoryRoutes);
+app.use("/api/menus", menuRoutes);
 
 // Handle unknown routes
 app.use((req, res) => {
@@ -36,4 +38,4 @@ app.use((req, res) => {
 
 // Start server
 const PORT = ENV.server.port;
-app.listen(PORT, () => console.log(`✅ Server is running on PORT: ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`));
