@@ -13,3 +13,15 @@ export const addMenuItem = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteMenuItem = async (req, res) => {
+  try {
+    const { id: menuId } = req.params;
+    await menuServices.deleteMenuItem(menuId);
+
+    res.status(200).json({ message: "Deleted menu item successfully" });
+  } catch (error) {
+    console.log(`Error in deleteMenuItem controller`);
+    return res.status(500).json({ message: error.message });
+  }
+};

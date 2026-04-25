@@ -52,3 +52,11 @@ export const addMenuItem = async (staff, menuData) => {
     sizes: savedSizes,
   };
 };
+
+export const deleteMenuItem = async (menuId) => {
+  const menuItem = await MenuModel.findMenuItemById(menuId);
+  if (!menuItem) {
+    throw new Error("Menu item not found");
+  }
+  await MenuModel.deleteMenuItem(menuId);
+};
