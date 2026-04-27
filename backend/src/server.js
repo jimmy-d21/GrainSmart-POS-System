@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.route.js";
 import staffRoutes from "./routes/staff.route.js";
 import inventoryRoutes from "./routes/inventory.route.js";
 import menuRoutes from "./routes/menu.route.js";
+import transactionRoutes from "./routes/transaction.route.js";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/staffs", staffRoutes);
 app.use("/api/inventorys", inventoryRoutes);
 app.use("/api/menus", menuRoutes);
+app.use("/api/transactions", transactionRoutes);
 
 // Handle unknown routes
 app.use((req, res) => {
