@@ -81,3 +81,18 @@ export const addTransaction = async (
     client.release(); // Close the connection
   }
 };
+
+export const getAnalytics = async () => {
+  const [summary, transacHistory] = await Promise.all([
+    TransactionModel.getAnalyticsSummary(),
+    TransactionModel.getAllTransactions(),
+  ]);
+
+  return {
+    total_revenue: Number(summary.total_revenue),
+    total_transactions: Number(summary.total_transactions),
+    total_completed: Number(summary.total_completed),
+    total_refunded: Number(summary.total_refunded),
+    items: transacHistory,
+  };
+};
